@@ -22,7 +22,7 @@ public class User {
     @NotEmpty
     @Size(min = 3,max = 100)
     private String username;
-    
+
     @Column(name = "password", length = 60, nullable = false, unique = true)
     @NotNull
     @NotEmpty
