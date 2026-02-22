@@ -5,10 +5,13 @@ import com.smk.apiproject.models.User;
 import com.smk.apiproject.repositories.TaskRepository;
 import com.smk.apiproject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TaskService {
 
     @Autowired
@@ -16,12 +19,18 @@ public class TaskService {
     @Autowired
     private UserService userService;
 
-    private Task findById(Long id){
+    public Task findById(Long id){
         Optional<Task> task = this.taskRepository.findById(id);
         return task.orElseThrow(() -> new RuntimeException(
                 "Usuário não encontrado " + id + ", Tipo: " + Task.class.getName()
         ));
     }
+
+    public List<Task> findByAllUserId(Long UserId){
+        List<Task> tasks = this.taskRepository.findByUser_Id(UserId);
+        return tasks;
+    }
+
     @Transactional
     public Task create(Task obj){
         User user = this.userService.findById(obj.getUser().getId());
