@@ -2,6 +2,7 @@ package com.smk.apiproject.controllers;
 
 import com.smk.apiproject.models.Task;
 import com.smk.apiproject.services.TaskService;
+import com.smk.apiproject.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,19 @@ import java.util.List;
 public class TaskController {
     @Autowired
     private TaskService taskService;
+    private UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findByTask(@PathVariable Long id){
         Task task = this.taskService.findById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(task);
     }
 
     @GetMapping("/User/{userId}")
     public ResponseEntity<List<Task>> findAllByUserId(@PathVariable Long userId){
+        this.userService.findById(userId);
         List<Task> objs = this.taskService.findByAllUserId(userId);
-        return ResponseEntity.ok().body(objs);
+        return ResponseEntity.ok(objs);
     }
 
     @PostMapping

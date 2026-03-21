@@ -3,6 +3,7 @@ package com.smk.apiproject.services;
 import com.smk.apiproject.models.User;
 import com.smk.apiproject.repositories.TaskRepository;
 import com.smk.apiproject.repositories.UserRepository;
+import com.smk.apiproject.services.exceptions.DataBindingViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +44,7 @@ public class UserService {
         try{
             this.userRepository.deleteById(id);
         }catch(Exception e){
-            throw new RuntimeException(
-                    "Não existe ID para deletar"
-            );
+            throw new DataBindingViolationException("Não é possível excluir pois há entidades relacionadas!");
         }
     }
 
